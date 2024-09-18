@@ -1,6 +1,23 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { Parallax, ParallaxLayer } from "svelte-parallax";
+  import { fade } from "svelte/transition";
+
+  let scrollIndicatorShown = true;
+
 </script>
+
+<svelte:window on:scroll={() => {scrollIndicatorShown = false}} />
+
+{#if scrollIndicatorShown}
+  <div
+    transition:fade={{ duration: 300 }}
+    class="fixed top-60 text-white text-opacity-60 z-[9999] font-light text-3xl w-full text-center animate-pulse"
+  >
+    Scroll down to explore <br>
+    <span class="fa fa-chevron-down text-lg animate-bounce"></span>
+  </div>
+{/if}
 
 <Parallax sections={3}>
   <ParallaxLayer offset={0} rate={-0.1}>
