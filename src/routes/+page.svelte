@@ -3,18 +3,33 @@
   import { Parallax, ParallaxLayer } from "svelte-parallax";
   import { fade } from "svelte/transition";
 
-  let scrollIndicatorShown = true;
+  let scrollIndicatorShown = false;
+  let coverELm: HTMLElement;
 
+  onMount(() => {
+    setTimeout(() => {
+      if (coverELm) {
+        coverELm.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          scrollIndicatorShown = true;
+        }, 400);
+      }
+    }, 1000);
+  });
 </script>
 
-<svelte:window on:scroll={() => {scrollIndicatorShown = false}} />
+<svelte:window
+  on:scroll={() => {
+    scrollIndicatorShown = false;
+  }}
+/>
 
 {#if scrollIndicatorShown}
   <div
     transition:fade={{ duration: 300 }}
-    class="fixed top-60 text-white text-opacity-60 z-[9999] font-light text-3xl w-full text-center animate-pulse"
+    class="fixed top-10 text-white text-opacity-60 z-[9999] font-light text-3xl w-full text-center animate-pulse"
   >
-    Scroll down to explore <br>
+    Scroll down to explore <br />
     <span class="fa fa-chevron-down text-lg animate-bounce"></span>
   </div>
 {/if}
@@ -22,6 +37,7 @@
 <Parallax sections={3}>
   <ParallaxLayer offset={0} rate={-0.1}>
     <div
+      bind:this={coverELm}
       class="background-container bg-cover w-screen h-screen bg-center transition-all duration-500 ease-in-out"
       style="background-image: url(./img4.jpg);"
     ></div>
